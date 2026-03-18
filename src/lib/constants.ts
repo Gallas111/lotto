@@ -1,5 +1,5 @@
-export const SITE_NAME = "로또번호 생성기";
-export const SITE_URL = "https://www.lotto-generator.kr"; // 도메인 확정 후 변경
+export const SITE_NAME = "로또한판";
+export const SITE_URL = "https://lottohanpan.com";
 export const SITE_DESCRIPTION =
   "무료 로또 번호 생성기 - 랜덤, 제외번호, 고정번호 모드로 나만의 로또 번호를 만들어보세요. 최신 당첨번호 통계와 분석도 제공합니다.";
 

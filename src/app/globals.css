@@ -8,8 +8,101 @@
   --color-lotto-green: #B0D840;
 }
 
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   background: #f8f9fa;
   color: #1a1a1a;
   font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Safe area insets for notched devices */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Better mobile tap targets */
+button,
+a,
+summary,
+[role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Inline small buttons override */
+button.inline-sm,
+a.inline-sm {
+  min-height: unset;
+  min-width: unset;
+}
+
+/* Remove tap highlight on mobile */
+button,
+a,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Selection color */
+::selection {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* Prevent horizontal overflow on mobile */
+main {
+  overflow-x: hidden;
+}
+
+/* Print styles */
+@media print {
+  header,
+  footer,
+  nav,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+    padding: 0;
+  }
+
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  a {
+    color: black;
+    text-decoration: underline;
+  }
+
+  a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+}
+
+/* Standalone PWA mode adjustments */
+@media (display-mode: standalone) {
+  body {
+    padding-top: env(safe-area-inset-top);
+  }
 }
