@@ -1,37 +1,69 @@
-name: Update lotto winning numbers
+name: Build & Deploy (with weekly data update)
 
 on:
   # 매주 일요일 02:00 KST (= 토요일 17:00 UTC) — 추첨 토요일 21:00 KST 후 안전한 시점
   schedule:
     - cron: '0 17 * * 6'
+  # master branch push 시 자동 빌드 + 배포 (CF Pages git connection 끊긴 상황 대체)
+  push:
+    branches: [master]
   workflow_dispatch: {}
 
 permissions:
   contents: write
 
+# 같은 워크플로 동시 실행 방지 — 데이터 fetch + commit + 배포 race 차단
+concurrency:
+  group: lotto-deploy
+  cancel-in-progress: false
+
 jobs:
-  update:
+  build-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
-      - name: Fetch latest winning numbers
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch latest winning numbers (graceful — dhlottery 차단 시 noop)
         run: node scripts/fetch-winning-numbers.mjs
 
-      - name: Commit if changed
+      - name: Generate sitemap (lastmod = data 첫 항목 date)
+        run: node scripts/generate-sitemap.mjs
+
+      - name: Commit data changes (cron / manual dispatch만)
+        if: github.event_name != 'push'
         run: |
-          if [[ -n $(git status --porcelain public/data/winning-numbers.json) ]]; then
+          if [[ -n $(git status --porcelain public/data/winning-numbers.json public/sitemap.xml) ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add public/data/winning-numbers.json
+            git add public/data/winning-numbers.json public/sitemap.xml
             LATEST=$(node -e "console.log(JSON.parse(require('fs').readFileSync('public/data/winning-numbers.json','utf8'))[0].round)")
             git commit -m "Update lotto data — round ${LATEST}"
             git push
             echo "✅ Committed round ${LATEST}"
           else
-            echo "ℹ️ No changes (data already up to date)"
+            echo "ℹ️ No data changes (dhlottery 차단 또는 이미 최신)"
           fi
+
+      - name: Next.js build
+        run: npx next build --webpack
+
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          npx wrangler pages deploy out \
+            --project-name=lotto-generator \
+            --branch=master \
+            --commit-dirty=true \
+            --commit-hash=${{ github.sha }}
