@@ -52,46 +52,64 @@ function computeDrawDate(round) {
   return d.toISOString().slice(0, 10);
 }
 
+// 네이버 검색 fallback — 데스크탑(www) 과 모바일(m) 두 endpoint 시도.
+// 모바일 패턴이 일관적: "{round}회차 (YYYY.MM.DD.) ... 당첨번호 당첨금액 당첨판매점 N N N N N N N 1등"
+// 데스크탑 패턴 (회차 패널 표시 시): "당첨번호 N,N,N,N,N,N 보너스(번호)? N"
 async function fetchFromNaver(round) {
-  const q = `${round}회 로또 당첨번호`;
-  const url = `https://search.naver.com/search.naver?query=${encodeURIComponent(q)}`;
-  try {
-    const r = await fetch(url, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-      },
-    });
-    if (!r.ok) return null;
-    const html = await r.text();
-    // HTML 태그 제거 후 텍스트 기준 매치 (마크업 변동에 강함)
-    const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
-    // "당첨번호 N[,\s]N[,\s]N[,\s]N[,\s]N[,\s]N (보너스(번호)?)? N" — 보너스 단어 옵셔널
-    const candidates = [...text.matchAll(
-      /당첨번호\s+(\d{1,2})[,\s]+(\d{1,2})[,\s]+(\d{1,2})[,\s]+(\d{1,2})[,\s]+(\d{1,2})[,\s]+(\d{1,2})\s+(?:보너스(?:번호)?\s+)?(\d{1,2})\b/gu
-    )];
-    // 검증: 매치 위치 앞 200자 안에 round회 명시되어야 함 (미래 회차 검색의 잘못된 매핑 방지)
-    for (const m of candidates) {
-      const ctx = text.slice(Math.max(0, m.index - 200), m.index);
-      if (!new RegExp(`${round}\\s*회`).test(ctx)) continue;
-      const nums = [m[1], m[2], m[3], m[4], m[5], m[6]].map((x) => parseInt(x, 10));
-      const bonus = parseInt(m[7], 10);
-      if (
-        nums.some((n) => !Number.isFinite(n) || n < 1 || n > 45) ||
-        !Number.isFinite(bonus) || bonus < 1 || bonus > 45 ||
-        new Set(nums).size !== 6 || nums.includes(bonus)
-      ) continue;
-      return {
-        round,
-        date: computeDrawDate(round),
-        numbers: nums.sort((a, b) => a - b),
-        bonus,
-      };
-    }
-    return null;
-  } catch {
-    return null;
+  const q = encodeURIComponent(`${round}회 로또 당첨번호`);
+  const endpoints = [
+    {
+      url: `https://m.search.naver.com/search.naver?query=${q}`,
+      ua: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15",
+      pattern: new RegExp(
+        `${round}회차\\s*\\([\\d.]+\\.?\\)[^a-z]*?당첨번호\\s*당첨금액\\s*당첨판매점\\s+(\\d{1,2})\\s+(\\d{1,2})\\s+(\\d{1,2})\\s+(\\d{1,2})\\s+(\\d{1,2})\\s+(\\d{1,2})\\s+(\\d{1,2})`,
+        "u"
+      ),
+      requiresCtxRound: false,
+    },
+    {
+      url: `https://search.naver.com/search.naver?query=${q}`,
+      ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      pattern: /당첨번호\s+(\d{1,2})[,\s]+(\d{1,2})[,\s]+(\d{1,2})[,\s]+(\d{1,2})[,\s]+(\d{1,2})[,\s]+(\d{1,2})\s+(?:보너스(?:번호)?\s+)?(\d{1,2})\b/gu,
+      requiresCtxRound: true,
+    },
+  ];
+
+  for (const ep of endpoints) {
+    try {
+      const r = await fetch(ep.url, { headers: { "User-Agent": ep.ua } });
+      if (!r.ok) continue;
+      const html = await r.text();
+      const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+
+      const matches = ep.pattern.global
+        ? [...text.matchAll(ep.pattern)]
+        : (() => { const m = text.match(ep.pattern); return m ? [m] : []; })();
+
+      for (const m of matches) {
+        if (ep.requiresCtxRound) {
+          // 매치 위치 앞 200자 안에 round회 명시되어야 함
+          const idx = m.index ?? 0;
+          const ctx = text.slice(Math.max(0, idx - 200), idx);
+          if (!new RegExp(`${round}\\s*회`).test(ctx)) continue;
+        }
+        const nums = [m[1], m[2], m[3], m[4], m[5], m[6]].map((x) => parseInt(x, 10));
+        const bonus = parseInt(m[7], 10);
+        if (
+          nums.some((n) => !Number.isFinite(n) || n < 1 || n > 45) ||
+          !Number.isFinite(bonus) || bonus < 1 || bonus > 45 ||
+          new Set(nums).size !== 6 || nums.includes(bonus)
+        ) continue;
+        return {
+          round,
+          date: computeDrawDate(round),
+          numbers: nums.sort((a, b) => a - b),
+          bonus,
+        };
+      }
+    } catch {}
   }
+  return null;
 }
 
 // ────────── 통합 fetcher ──────────
