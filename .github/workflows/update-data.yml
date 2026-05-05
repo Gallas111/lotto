@@ -62,8 +62,11 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
+          # --commit-message 명시 (ASCII only) — CF API 가 한글/emoji 포함 git commit
+          # message 를 "Invalid UTF-8" 로 reject 하는 버그 우회 (2026-05-05)
           npx wrangler pages deploy out \
             --project-name=lotto-generator \
             --branch=master \
             --commit-dirty=true \
-            --commit-hash=${{ github.sha }}
+            --commit-hash=${{ github.sha }} \
+            --commit-message="Auto deploy via GitHub Actions ($(echo ${{ github.sha }} | cut -c1-7))"
