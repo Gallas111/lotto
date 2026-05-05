@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "node scripts/fetch-winning-numbers.mjs && next build --webpack",
+    "build": "node scripts/fetch-winning-numbers.mjs && node scripts/generate-sitemap.mjs && next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "fetch-data": "node scripts/fetch-winning-numbers.mjs"
+    "fetch-data": "node scripts/fetch-winning-numbers.mjs",
+    "sitemap": "node scripts/generate-sitemap.mjs"
   },
   "dependencies": {
     "next": "16.1.7",
