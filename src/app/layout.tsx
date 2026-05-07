@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -97,6 +98,11 @@ export const metadata: Metadata = {
   creator: "로또한판",
   publisher: "로또한판",
   category: "utilities",
+  verification: {
+    other: {
+      "naver-site-verification": "6f8317a3653792630dc1e0e3b77a074331c04dda",
+    },
+  },
   other: {
     "msapplication-TileColor": "#3b82f6",
     "msapplication-TileImage": "/icons/icon-144x144.png",
@@ -142,6 +148,18 @@ export default function RootLayout({
         </main>
         <Footer />
         <ServiceWorkerRegistrar />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-J24GKYX7JM"
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-J24GKYX7JM');
+          `}
+        </Script>
       </body>
     </html>
   );
