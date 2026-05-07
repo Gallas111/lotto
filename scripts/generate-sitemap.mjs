@@ -20,10 +20,25 @@ function getDataLastmod() {
 const dataLastmod = getDataLastmod();
 const today = new Date().toISOString().slice(0, 10);
 
+const guideSlugs = [
+  "lotto-odds",
+  "lotto-tax-guide",
+  "number-strategy",
+  "auto-vs-manual",
+  "pension-vs-lotto",
+];
+
 const pages = [
   { path: "/", changefreq: "weekly", priority: "1.0", lastmod: dataLastmod },
   { path: "/generator/", changefreq: "monthly", priority: "0.9", lastmod: today },
   { path: "/stats/", changefreq: "weekly", priority: "0.8", lastmod: dataLastmod },
+  { path: "/guide/", changefreq: "monthly", priority: "0.8", lastmod: today },
+  ...guideSlugs.map((slug) => ({
+    path: `/guide/${slug}/`,
+    changefreq: "monthly",
+    priority: "0.7",
+    lastmod: today,
+  })),
   { path: "/simulator/", changefreq: "monthly", priority: "0.7", lastmod: today },
   { path: "/calculator/", changefreq: "monthly", priority: "0.6", lastmod: today },
   { path: "/saved/", changefreq: "monthly", priority: "0.5", lastmod: today },

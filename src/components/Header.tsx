@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { href: "/stats/", label: "통계" },
   { href: "/calculator/", label: "계산기" },
   { href: "/simulator/", label: "시뮬레이터" },
+  { href: "/guide/", label: "가이드" },
   { href: "/saved/", label: "저장함" },
 ];
 
