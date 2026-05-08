@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 import { getGuide } from "@/lib/guides";
 import { SITE_URL } from "@/lib/constants";
 
@@ -15,6 +14,7 @@ export const metadata: Metadata = {
     description: guide.description,
     url: `${SITE_URL}/guide/${guide.slug}/`,
     type: "article",
+    images: ["/og-image.png"],
   },
 };
 
@@ -43,10 +43,8 @@ export default function Page() {
 
   return (
     <article className="prose-article space-y-6">
-      <Script id="article-jsonld" type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
-      <Script id="breadcrumb-jsonld" type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
       <nav className="text-sm text-gray-500" aria-label="Breadcrumb">
         <Link href="/" className="hover:text-blue-500">홈</Link>
