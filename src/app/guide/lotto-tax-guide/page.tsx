@@ -199,10 +199,144 @@ export default function Page() {
         </ul>
 
         <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">
+          7. 등수별 실수령액 시나리오 비교
+        </h2>
+        <p>
+          1등만 세금 이슈가 있는 게 아닙니다. 5등(5,000원)부터 1등까지 각 등수별 세후 수령액을 정리하면 다음과 같습니다.
+        </p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="bg-gray-50 border-b border-gray-200">
+                <th className="text-left p-3 font-semibold">등수</th>
+                <th className="text-right p-3 font-semibold">발표 당첨금(예시)</th>
+                <th className="text-right p-3 font-semibold">세금</th>
+                <th className="text-right p-3 font-semibold">실수령액</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-gray-100">
+                <td className="p-3 font-medium">5등</td>
+                <td className="p-3 text-right tabular-nums">5,000원</td>
+                <td className="p-3 text-right tabular-nums">0원 (5만 이하 비과세)</td>
+                <td className="p-3 text-right tabular-nums font-medium">5,000원</td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <td className="p-3 font-medium">4등</td>
+                <td className="p-3 text-right tabular-nums">50,000원</td>
+                <td className="p-3 text-right tabular-nums">0원 (5만 이하 비과세)</td>
+                <td className="p-3 text-right tabular-nums font-medium">50,000원</td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <td className="p-3 font-medium">3등</td>
+                <td className="p-3 text-right tabular-nums">1,500,000원</td>
+                <td className="p-3 text-right tabular-nums">330,000원 (22%)</td>
+                <td className="p-3 text-right tabular-nums font-medium">1,170,000원</td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <td className="p-3 font-medium">2등</td>
+                <td className="p-3 text-right tabular-nums">70,000,000원</td>
+                <td className="p-3 text-right tabular-nums">15,400,000원 (22%)</td>
+                <td className="p-3 text-right tabular-nums font-medium">54,600,000원</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-medium">1등</td>
+                <td className="p-3 text-right tabular-nums">2,500,000,000원</td>
+                <td className="p-3 text-right tabular-nums">792,000,000원</td>
+                <td className="p-3 text-right tabular-nums font-medium">1,708,000,000원</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          5등(5,000원)과 4등(5만 원)은 5만 원 이하 비과세 규정 덕분에 세금이 전혀 발생하지 않습니다. 즉, 발표 금액 그대로가 실수령액입니다. 3등 약 150만 원 구간부터 22% 원천징수가 적용되며, 받는 즉시 세후 금액으로 입금됩니다. 정확한 임의 금액은 <Link href="/calculator/" className="text-blue-600 hover:underline">당첨금 세금 계산기</Link>에서 입력해 바로 확인할 수 있습니다.
+        </p>
+
+        <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">
+          8. 연금복권과 로또 세금 비교 - 분할 vs 일시
+        </h2>
+        <p>
+          연금복권 720+의 1등은 월 700만 원씩 20년 지급 방식입니다. 매월 700만 원에 22% 원천징수가 적용되어 <strong>월 실수령 약 546만 원</strong>이 됩니다. 20년 누적 실수령은 약 13억 1,000만 원 수준입니다.
+        </p>
+        <p>
+          왜 22%만 떼는가? 연금복권은 매월 분할 지급되어 월별로 계산되기 때문에 한 번도 3억 원 구간을 넘지 않습니다. 따라서 33% 구간이 발생할 일이 없고, 항상 22%(20% 기타소득세 + 2% 지방소득세)만 적용됩니다.
+        </p>
+        <p>
+          반면 로또 1등은 한 번에 큰 금액이 들어오므로 3억 초과분에 33%가 적용됩니다. 25억 원 1등 시 약 7억 9,200만 원이 세금으로 빠집니다. 이 차이 때문에 <strong>총 발표 금액이 같아도 연금복권의 실수령 비율이 더 높습니다</strong>(약 78% vs 로또 약 68%). 단, 시간 가치를 고려하면 다른 결론이 나옵니다 — 자세한 비교는 <Link href="/guide/pension-vs-lotto/" className="text-blue-600 hover:underline">연금복권 vs 로또 가이드</Link> 참조.
+        </p>
+
+        <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">
+          9. 받은 후 종합소득세 신고 시 주의점
+        </h2>
+        <p>
+          기타소득세는 분리과세이므로 별도 종합소득세 신고가 필요 없습니다. 단 다음 두 가지 시나리오는 별도 점검이 필요합니다.
+        </p>
+        <ul className="space-y-2 list-disc list-inside pl-2">
+          <li>
+            <strong>금융소득 종합과세 대상</strong>: 당첨금을 예금이나 채권으로 운용해서 연간 이자·배당 소득이 2,000만 원을 넘으면, 그 이자·배당 부분에 대해 종합과세 대상이 됩니다. 17억 원을 연 4% 정기예금에 묶으면 연 6,800만 원의 이자가 발생해 자동으로 금융소득 종합과세 구간에 진입합니다. 종합소득 합산 시 최고 49.5%(소득세 45% + 지방세 4.5%)까지 누진세율이 적용됩니다.
+          </li>
+          <li>
+            <strong>건강보험 피부양자 박탈</strong>: 큰 자산이 형성되면 건강보험 피부양자 자격이 떨어져 지역가입자로 전환됩니다. 추가 보험료가 매월 발생하므로 사전 계산이 필요합니다.
+          </li>
+        </ul>
+
+        <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">
+          10. 증여세 절세 - 10년 단위 분할 활용
+        </h2>
+        <p>
+          당첨금을 가족에게 나눠줄 때 적용되는 증여세 비과세 한도는 10년 단위로 다시 적용됩니다. 즉, 한 번 한도를 사용해도 10년이 지나면 다시 같은 한도가 부활합니다.
+        </p>
+        <pre className="bg-gray-50 rounded-lg p-4 text-sm overflow-x-auto">
+{`증여세 비과세 한도 (10년 누적)
+  배우자: 6억 원
+  자녀(성년): 5천만 원
+  자녀(미성년): 2천만 원
+  부모·조부모: 5천만 원
+  형제자매: 1천만 원
+  기타 친족: 1천만 원
+
+증여세율 (한도 초과분)
+  1억 이하: 10%
+  1억~5억: 20%
+  5억~10억: 30%
+  10억~30억: 40%
+  30억 초과: 50%
+
+※ 모두 누진공제 별도 적용`}
+        </pre>
+        <p>
+          예를 들어 17억 실수령액을 배우자와 성인 자녀 2명에게 분배한다면, 배우자에게 6억 + 자녀 각 5천만 원 = 7억 원까지 증여세 없이 이전 가능합니다. 나머지 10억 원은 본인 명의로 운용하다가 10년 후 다시 같은 한도를 활용하는 식으로 분할하면 누적 증여세를 크게 줄일 수 있습니다. 배우자 6억 한도는 매우 큰 절세 효과를 가지므로, 결혼 가정이라면 가장 우선 활용해야 합니다.
+        </p>
+
+        <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">
+          11. 당첨 직후 첫 30일 동안 해야 할 5가지
+        </h2>
+        <p>
+          큰 금액이 한 번에 들어왔을 때 첫 한 달 동안의 행동이 이후 자산 운용 결과를 좌우합니다. 동행복권 권장사항과 재무 상담 가이드라인에 따르면 다음 순서가 합리적입니다.
+        </p>
+        <ul className="space-y-3 list-disc list-inside pl-2">
+          <li>
+            <strong>1. 즉시 공개하지 않기</strong>: 가족·친척·지인에게도 당첨 사실을 즉시 공개하지 않는 것이 안전합니다. 친척의 돈 요청, 사기 시도, 언론 노출이 빠르게 시작될 수 있습니다. 동행복권은 익명 수령을 권장하며, 농협 등 일부 은행 본점에서 비공개 수령 절차를 안내받을 수 있습니다.
+          </li>
+          <li>
+            <strong>2. 세후 실수령액 확인</strong>: 발표 금액의 약 67~68%가 실수령액임을 다시 한 번 계산기로 확인합니다. 25억 발표 → 17억 수령 식의 큰 차이가 나므로, 받기 전에 정확한 액수로 자산 계획을 세워야 합니다.
+          </li>
+          <li>
+            <strong>3. 현금성 단기 보관</strong>: 받자마자 당장 큰 결정을 하지 않고, 우선 예금자보호 한도(은행당 5천만 원) 안에서 여러 은행에 분산 예치합니다. 30일 동안 침착하게 운용 계획을 세울 시간을 확보합니다.
+          </li>
+          <li>
+            <strong>4. 세무사·재무 상담</strong>: 17억 이상 자산이라면 세무사 1~2명, 독립 재무 상담사(IFA) 1명과 상담을 받아 종합소득세·증여세 시뮬레이션을 받습니다. 비용은 보통 수십~수백만 원 수준이지만, 이 단계에서 절약되는 세금이 훨씬 큽니다.
+          </li>
+          <li>
+            <strong>5. 큰 지출 30일 보류</strong>: 자동차·부동산·사업 같은 대형 지출은 최소 30일, 가능하면 90일 보류합니다. 충동 결정으로 부적절한 자산 매입을 막는 가장 효과적인 방어선입니다.
+          </li>
+        </ul>
+
+        <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">
           마무리: 발표 금액의 약 68%만 실수령
         </h2>
         <p>
-          로또 1등 당첨이 발표될 때 보도되는 금액은 세전 금액입니다. 25억 원이라면 실제로는 약 17억 원, 10억 원이라면 약 7억 원 정도가 실수령액입니다. 당첨을 상상해볼 때도 이 점을 염두에 두면 더 현실적인 계획을 세울 수 있습니다.
+          로또 1등 당첨이 발표될 때 보도되는 금액은 세전 금액입니다. 25억 원이라면 실제로는 약 17억 원, 10억 원이라면 약 7억 원 정도가 실수령액입니다. 당첨을 상상해볼 때도 이 점을 염두에 두면 더 현실적인 계획을 세울 수 있습니다. 또한 받은 후에도 운용 방식에 따라 금융소득 종합과세나 증여세가 추가로 발생할 수 있으니, 큰 금액이 입금됐을 때는 받기 전에 세무사와 상담하는 것을 권장합니다.
         </p>
       </section>
 
