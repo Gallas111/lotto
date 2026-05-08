@@ -194,6 +194,139 @@ export default function Page() {
         </ul>
 
         <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">
+          6. 부분식·다중식 손익 시뮬레이션
+        </h2>
+        <p>
+          부분식이 정말 효율적인지 가격 대비 기대값으로 따져보면 다음과 같습니다. 한 게임 기대 회수율은 약 50%(매출의 50%가 당첨금 풀로 환원)이므로, 부분식 7~10도 같은 기대 회수율이 적용됩니다. 단, 한 회차에 더 많은 번호 칸을 채우는 효과로 1등 적중 시 보장된 당첨금이 발생합니다.
+        </p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="bg-gray-50 border-b border-gray-200">
+                <th className="text-left p-3 font-semibold">방식</th>
+                <th className="text-right p-3 font-semibold">금액</th>
+                <th className="text-right p-3 font-semibold">기대 회수</th>
+                <th className="text-right p-3 font-semibold">고른 번호 중 6개 적중 시</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-gray-100">
+                <td className="p-3">자동 1게임</td>
+                <td className="p-3 text-right">1,000원</td>
+                <td className="p-3 text-right">약 500원</td>
+                <td className="p-3 text-right">1등 1게임</td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <td className="p-3">다중식 5게임</td>
+                <td className="p-3 text-right">5,000원</td>
+                <td className="p-3 text-right">약 2,500원</td>
+                <td className="p-3 text-right">1등 + 다중 가능성 0</td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <td className="p-3">부분식 7</td>
+                <td className="p-3 text-right">7,000원</td>
+                <td className="p-3 text-right">약 3,500원</td>
+                <td className="p-3 text-right">1등 1 + 2등 6</td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <td className="p-3">부분식 8</td>
+                <td className="p-3 text-right">28,000원</td>
+                <td className="p-3 text-right">약 14,000원</td>
+                <td className="p-3 text-right">1등 1 + 2등 12 + 3등 15</td>
+              </tr>
+              <tr>
+                <td className="p-3">부분식 10</td>
+                <td className="p-3 text-right">210,000원</td>
+                <td className="p-3 text-right">약 105,000원</td>
+                <td className="p-3 text-right">1등 1 + 다수 하위 등수</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          부분식의 진짜 가치는 <strong>고른 번호 안에 1등 6개가 모두 들어왔을 때 다른 등수도 동시에 잡는 효율성</strong>입니다. 부분식 7로 1등이 나오면 1등 + 2등 6게임이 동시에 발생해 추가 약 4억 원 이상의 당첨금이 합산됩니다. 다만 발생 확률이 1등 확률과 같으므로 실제 기대값은 일반 자동과 동일합니다. 본인이 골라본 직감의 7~10개 번호에 강한 확신이 있을 때만 활용 가치가 있습니다.
+        </p>
+
+        <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">
+          7. 1등 당첨자 인터뷰 데이터 - 자동 vs 수동 분포 디테일
+        </h2>
+        <p>
+          동행복권은 매 회차 1등 당첨자 일부의 구매 방식·판매점·당첨 소감을 공식 사이트에 게시합니다. 누적 인터뷰 데이터를 살펴보면 다음과 같은 흐름이 보입니다.
+        </p>
+        <ul className="space-y-2 list-disc list-inside pl-2">
+          <li>
+            <strong>자동 당첨자 다수</strong>: &ldquo;특별한 번호가 있던 게 아니라 평소 자동으로 산 게 당첨됐다&rdquo;가 가장 흔한 멘트입니다. 자동 구매자의 절대수가 많기 때문에 1등 당첨자도 자동이 가장 많이 나옵니다.
+          </li>
+          <li>
+            <strong>수동·반자동 당첨자의 공통점</strong>: 가족 생일이나 기념일을 6개 모두 또는 일부 사용한 경우가 많습니다. 30년 이상 같은 번호를 매주 산 사례, 꿈에서 본 번호, 통계 분석으로 고른 번호 등 다양한 사연이 있습니다.
+          </li>
+          <li>
+            <strong>다중·부분식 당첨자</strong>: 한 회차에 같은 번호를 5게임 이상 산 다중식 당첨자가 한 회차에 1억~수억 원 단위 보너스를 받는 경우가 종종 있습니다. 이는 단순히 같은 번호를 여러 게임 산 결과로, 다중식 자체가 확률을 높이지는 않습니다.
+          </li>
+        </ul>
+        <p>
+          중요한 인사이트는 <strong>구매 방식보다 지속성이 더 결정적</strong>이라는 점입니다. 인터뷰에서 가장 자주 등장하는 패턴은 &ldquo;매주 일정한 금액으로 꾸준히 사다가 어느 날 당첨됐다&rdquo;입니다. 한 번에 큰돈을 거는 부분식 한 방보다, 매주 5,000원~1만 원 수준으로 30년 이상 꾸준히 산 사람들의 누적 시도 횟수가 결국 1등을 만들어내는 가장 큰 변수입니다.
+        </p>
+
+        <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">
+          8. 반자동의 효과적인 활용 - 의미 있는 숫자 + 자동 보완
+        </h2>
+        <p>
+          반자동은 의미 있는 숫자에 대한 심리적 만족과 자동의 무작위성을 결합한 방식입니다. 효과적으로 활용하려면 다음 원칙을 따르는 것이 좋습니다.
+        </p>
+        <ul className="space-y-2 list-disc list-inside pl-2">
+          <li>
+            <strong>고정 번호는 1~3개로 제한</strong>: 4개 이상 고정하면 자유도가 너무 줄어 자동 효과가 약해집니다. 1~3개 정도가 의미와 무작위성의 균형이 좋습니다.
+          </li>
+          <li>
+            <strong>1~31 사이 숫자만 고집하지 않기</strong>: 생일·기념일은 모두 1~31 범위에 들어옵니다. 이 범위만 고정하면 32~45 번호가 1등에 포함됐을 때 무력해집니다. 의미 있는 숫자 1개만 고정하고 나머지 5개를 자동으로 두면 32~45 영역도 자연 커버됩니다.
+          </li>
+          <li>
+            <strong>같은 반자동 패턴 유지</strong>: 매주 새로운 의미 숫자를 바꾸기보다 6개월~1년 동안 같은 패턴을 유지하면 누적 시도 횟수가 의미 있게 쌓입니다.
+          </li>
+        </ul>
+
+        <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">
+          9. 매주 자동 5게임 vs 한 달 1번 부분식 7 - 어느 쪽이 합리적?
+        </h2>
+        <p>
+          한 달 예산을 약 2만 원으로 가정하고 두 패턴을 비교해보면 다음과 같습니다.
+        </p>
+        <ul className="space-y-2 list-disc list-inside pl-2">
+          <li>
+            <strong>패턴 A: 매주 자동 5게임</strong> (5,000원 × 4주 = 20,000원). 한 달 누적 20게임. 매 회차 추첨 결과 즉시 확인 가능. 분산 시도 효과로 5등(3개 일치) 1~2개 정도는 한 달에 평균적으로 만날 수 있습니다.
+          </li>
+          <li>
+            <strong>패턴 B: 한 달에 1번 부분식 7</strong> (7,000원). 한 달에 7게임만 산다는 뜻이라 한 달 누적 시도가 적습니다. 부분식 7은 한 회차에 7개 번호 안에 1등 6개가 모두 포함될 때만 1등 + 2등 6개가 함께 보장됩니다. 1등 적중 자체는 1/8,145,060이라 패턴 A의 분산 시도와 통계적 가치는 거의 같습니다.
+          </li>
+        </ul>
+        <p>
+          순수한 게임 수와 분산 효과만 보면 <strong>패턴 A(매주 5게임)가 더 효율적</strong>입니다. 같은 예산으로 시도 횟수가 약 3배 많기 때문입니다. 부분식 7은 본인이 7개 번호 조합에 강한 확신이 있을 때, 또는 한 번의 1등 때 다른 등수도 함께 잡고 싶을 때만 의미가 있습니다.
+        </p>
+
+        <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">
+          10. 자주 묻는 질문(FAQ)
+        </h2>
+        <p>
+          <strong>Q. 자동과 수동의 1등 확률이 정말 똑같나요?</strong>
+        </p>
+        <p>
+          A. 네, 정확히 똑같습니다. 모든 번호 조합은 1/8,145,060의 동일 확률을 가지며, 자동(컴퓨터 난수)이든 수동(사람이 고르기)이든 그 조합이 1등에 적중할 확률에는 영향을 주지 않습니다. 자동·수동 1등 비율 차이는 단순히 자동 구매자가 더 많아서 절대수 비율이 그대로 반영된 결과입니다.
+        </p>
+        <p>
+          <strong>Q. 부분식 7과 다중식 7게임은 무엇이 다른가요?</strong>
+        </p>
+        <p>
+          A. 부분식 7은 7개 번호를 고르면 가능한 6개 조합 7개를 모두 산 결과(7,000원)입니다. 다중식 7게임은 같은 6개 번호 1조합을 7번 산 결과(7,000원)입니다. 부분식은 7개 번호 안에 1등이 다 들어오면 자동으로 1등 + 2등 다수 보장. 다중식은 1등 적중 시 1등 7배 당첨금. 본인 선호에 따라 다르지만, 수학적 기대값은 같습니다.
+        </p>
+        <p>
+          <strong>Q. QR 자동복권 1게임에 1,000원과 모바일 구매는 같은 가격인가요?</strong>
+        </p>
+        <p>
+          A. 네, 한국 로또 6/45는 모든 판매 채널에서 1게임 1,000원으로 통일되어 있습니다. 판매점 종이복권, 모바일 동행복권 앱, 인터넷 모두 가격은 같으며, 같은 회차에 추첨되는 동일 게임입니다. 모바일은 개인 인증 후 회당 5,000원 한도 안에서 구매 가능합니다.
+        </p>
+
+        <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">
           마무리: 방식보다 중요한 건 지속성과 예산
         </h2>
         <p>
